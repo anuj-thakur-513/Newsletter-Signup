@@ -1,5 +1,6 @@
 const express = require("express");
 const client = require("@mailchimp/mailchimp_marketing");
+const { response } = require("express");
 
 const app = express();
 // creating a port to host the server
@@ -46,10 +47,13 @@ app.post("/", (req, res) => {
         LNAME: subscribingUser.lastName,
       },
     });
-    console.log(response);
+    res.send("Successfully Registered!");
+    console.log(
+      `Successfully added contact as an audience member. The contact's id is ${response.id}.`
+    );
   }
 
-  run().catch((e) => res.sendFile(__dirname + "/failure.html"));
+  run().catch((e) => res.send("Registration Failed, Please try again!"));
 });
 
 // starting the server
